@@ -86,23 +86,35 @@ impl ToDo {
 }
 
 fn main() {
+    // Create it the long way
     let t = ToDo{task: "Get milk".to_string(), detail: "From the shops, full cream please".to_string(), complete: false};
+    // Create it using initializer
     let mut t2 = ToDo::new("Drink milk", "All of it!");
     println!("ToDo: {}", t);
     println!("ToDo2: {}", t2);
     t2.mark_complete();
     println!("ToDo2: {}", t2);
+
+    // Manually encoding to JSON
     let encoded = json::encode(&t2).unwrap();
     println!("ToDo2 as JSON: {}", encoded);
+
+    // ToDos collection
     let mut todos = ToDos::new();
     todos.add(t);
     todos.add(t2);
+
+    // Output the collection to JSON
     let todos_as_json = json::encode(&todos).unwrap();
     println!("ToDos os JSON: {}", todos_as_json);
+
+    // Save the file
     todos.save("todos.json");
+    // Load an alternative file to show difference
     todos.load("todos2.json");
     todos.mark_complete(0);
     println!("ToDos loaded: {}", todos.as_json());
+    // What's incomplete from the loaded file
     println!("Incomplete ToDos, {}", todos.incomplete());
 }
 
